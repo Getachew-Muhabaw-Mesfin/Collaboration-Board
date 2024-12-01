@@ -15,7 +15,7 @@ import { CategoriesModule } from './categories/categories.module';
      * Database configuration with MySQL and TypeORM
      * Load .env variables globally
      */
-    ConfigModule.forRoot({ isGlobal: true }), // Load .env variables globally
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
