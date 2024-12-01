@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   OneToMany,
+  Index,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Category } from '../../categories/entities/category.entity';
@@ -14,6 +15,7 @@ import { Response } from '../../responses/entities/response.entity';
  * This entity represents a post with relation to the user who created the post and the category to which the post belongs.
  */
 @Entity()
+@Index(['title', 'createdAt'])
 export class Post {
   @PrimaryGeneratedColumn()
   id: number;

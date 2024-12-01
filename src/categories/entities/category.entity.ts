@@ -1,8 +1,15 @@
 // src/category/category.entity.ts
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  Index,
+} from 'typeorm';
 import { Post } from '../../posts/entities/post.entity';
 
 @Entity()
+@Index(['name', 'createdAt'])
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;

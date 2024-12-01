@@ -1,8 +1,15 @@
 // src/notification/notification.entity.ts
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Index,
+} from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 
 @Entity()
+@Index(['message', 'createdAt'])
 export class Notification {
   @PrimaryGeneratedColumn()
   id: number;

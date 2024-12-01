@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  Index,
+} from 'typeorm';
 import { Post } from '../../posts/entities/post.entity';
 import { Response } from '../../responses/entities/response.entity';
 import { Notification } from '../../notifications/entities/notification.entity';
@@ -8,6 +14,8 @@ import { Notification } from '../../notifications/entities/notification.entity';
  * This entity is used to create a user table in the database with relations to other tables
  */
 @Entity()
+@Index(['email'], { unique: true })
+@Index(['name', 'createdAt'])
 export class User {
   @PrimaryGeneratedColumn()
   id: number;

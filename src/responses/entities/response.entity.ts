@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Index,
+} from 'typeorm';
 import { Post } from '../../posts/entities/post.entity';
 import { User } from '../../users/entities/user.entity';
 
@@ -7,6 +13,7 @@ import { User } from '../../users/entities/user.entity';
  * This entity represents a response to a post with relation to the post and the user who created the response.
  */
 @Entity()
+@Index(['content', 'createdAt'])
 export class Response {
   @PrimaryGeneratedColumn()
   id: number;
