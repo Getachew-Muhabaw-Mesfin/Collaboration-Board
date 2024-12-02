@@ -12,4 +12,9 @@ export class PaginationDto {
   @IsInt()
   @Min(1)
   limit: number;
+
+  @IsOptional()
+  title?: string;
+  @IsOptional()
+  categoryName?: string;
 }

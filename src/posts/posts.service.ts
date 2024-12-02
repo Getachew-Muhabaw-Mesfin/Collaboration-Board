@@ -90,22 +90,35 @@ export class PostsService {
     paginationDto: PaginationDto,
     userId: number,
   ): Promise<Post[]> {
-    const { page, limit, categoryId } = paginationDto;
+    const { page, limit, categoryId, categoryName, title } = paginationDto;
 
+    // Ensure that skip and limit are numbers
     const skip = (page - 1) * limit;
     const take = limit;
 
+    // Build the where condition dynamically based on the inputs
     const where: any = { user: { id: userId } };
 
+    // Optionally, add category filter if categoryId or categoryName is provided
     if (categoryId) {
       where.category = { id: categoryId };
     }
+    if (categoryName) {
+      where.category = { name: categoryName }; // Assuming 'name' is the category name field
+    }
 
+    // Optionally, add title filter if provided
+    if (title) {
+      where.title = title;
+    }
+
+    // Fetch the posts with pagination and apply filters
     return this.postsRepository.find({
-      skip: isNaN(skip) ? 0 : skip,
-      take: isNaN(take) ? 10 : take,
+      skip: isNaN(skip) ? 0 : skip, // Default to 0 if skip is not a number
+      take: isNaN(take) ? 10 : take, // Default to 10 if take is not a number
       order: { createdAt: 'DESC' },
-      where,
+      where, // Apply the dynamic where condition
+      relations: ['category'], // Include category relation to filter by category name
     });
   }
 }
