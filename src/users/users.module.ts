@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { UserService } from './users.service';
 import { UsersController } from './users.controller';
 import { ConfigModule } from '@nestjs/config';
 
@@ -15,6 +15,6 @@ import { Notification } from 'src/notifications/entities/notification.entity';
     TypeOrmModule.forFeature([Post, Response, Notification, User]),
   ],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UserService],
 })
 export class UsersModule {}
