@@ -1,34 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post as PostMethod,
+  Body,
+  Param,
+  ParseIntPipe,
+  Query,
+  Get,
+} from '@nestjs/common';
 import { ResponsesService } from './responses.service';
 import { CreateResponseDto } from './dto/create-response.dto';
-import { UpdateResponseDto } from './dto/update-response.dto';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Controller('responses')
 export class ResponsesController {
   constructor(private readonly responsesService: ResponsesService) {}
 
-  @Post()
-  create(@Body() createResponseDto: CreateResponseDto) {
-    return this.responsesService.create(createResponseDto);
+  // Create a response for a post
+  @PostMethod()
+  async create(
+    @Body() createResponseDto: CreateResponseDto,
+    @Body('userId') userId: number,
+  ) {
+    return this.responsesService.create(createResponseDto, userId);
   }
 
-  @Get()
-  findAll() {
-    return this.responsesService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.responsesService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateResponseDto: UpdateResponseDto) {
-    return this.responsesService.update(+id, updateResponseDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.responsesService.remove(+id);
+  // Get responses for a given post
+  @Get(':postId')
+  async getResponsesForPost(
+    @Param('postId', ParseIntPipe) postId: number,
+    @Query() paginationDto: PaginationDto,
+  ) {
+    return this.responsesService.getResponsesForPost(postId, paginationDto);
   }
 }

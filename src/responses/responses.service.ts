@@ -1,26 +1,59 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Response } from './entities/response.entity';
 import { CreateResponseDto } from './dto/create-response.dto';
-import { UpdateResponseDto } from './dto/update-response.dto';
+import { Post } from '../posts/entities/post.entity';
+import { PaginationDto } from './dto/pagination.dto';
 
 @Injectable()
 export class ResponsesService {
-  create(createResponseDto: CreateResponseDto) {
-    return 'This action adds a new response';
+  constructor(
+    @InjectRepository(Response)
+    private responsesRepository: Repository<Response>,
+    @InjectRepository(Post)
+    private postsRepository: Repository<Post>,
+  ) {}
+
+  // Create a new response for a post
+  async create(
+    createResponseDto: CreateResponseDto,
+    userId: number,
+  ): Promise<Response> {
+    const post = await this.postsRepository.findOneBy({
+      id: createResponseDto.postId,
+    });
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+
+    const response = this.responsesRepository.create({
+      content: createResponseDto.content,
+      post,
+      user: { id: userId } as any, // User reference
+    });
+
+    return this.responsesRepository.save(response);
   }
 
-  findAll() {
-    return `This action returns all responses`;
-  }
+  // List all responses for a given post with pagination
+  async getResponsesForPost(
+    postId: number,
+    paginationDto: PaginationDto,
+  ): Promise<Response[]> {
+    const { page, limit } = paginationDto;
 
-  findOne(id: number) {
-    return `This action returns a #${id} response`;
-  }
+    const post = await this.postsRepository.findOneBy({ id: postId });
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
 
-  update(id: number, updateResponseDto: UpdateResponseDto) {
-    return `This action updates a #${id} response`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} response`;
+    return this.responsesRepository.find({
+      where: { post: { id: postId } },
+      skip: (page - 1) * limit,
+      take: limit,
+      order: { createdAt: 'DESC' },
+      relations: ['user'],
+    });
   }
 }
