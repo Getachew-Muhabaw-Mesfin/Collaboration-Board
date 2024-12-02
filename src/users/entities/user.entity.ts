@@ -8,6 +8,7 @@ import {
 import { Post } from '../../posts/entities/post.entity';
 import { Response } from '../../responses/entities/response.entity';
 import { Notification } from '../../notifications/entities/notification.entity';
+import { Exclude } from 'class-transformer';
 
 /**
  * User entity
@@ -25,6 +26,7 @@ export class User {
   @Column({ unique: true })
   email: string;
 
+  @Exclude()
   @Column()
   password: string;
 

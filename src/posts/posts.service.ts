@@ -11,6 +11,7 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PaginationDto } from './dto/pagination.dto';
 import { Category } from '../categories/entities/category.entity';
+import { classToPlain } from 'class-transformer';
 
 @Injectable()
 export class PostsService {
@@ -36,7 +37,7 @@ export class PostsService {
 
     const post = this.postsRepository.create({
       ...createPostDto,
-      user,
+      user: classToPlain(user),
       category,
     });
 

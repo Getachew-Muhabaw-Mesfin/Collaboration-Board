@@ -55,13 +55,25 @@ export class CategoriesService {
     await this.categoriesRepository.remove(category);
   }
 
-  // Get categories with pagination
-  async getCategories(paginationDto: PaginationDto): Promise<Category[]> {
-    const { page, limit } = paginationDto;
+  async getCategories(paginationDto?: PaginationDto): Promise<Category[]> {
+    const page = paginationDto?.page ?? 1;
+    const limit = paginationDto?.limit ?? 10;
+
+    const pageNumber = parseInt(page.toString(), 10);
+    const limitNumber = parseInt(limit.toString(), 10);
+
+    if (
+      isNaN(pageNumber) ||
+      isNaN(limitNumber) ||
+      pageNumber < 1 ||
+      limitNumber < 1
+    ) {
+      throw new Error('Invalid pagination values');
+    }
 
     return this.categoriesRepository.find({
-      skip: (page - 1) * limit,
-      take: limit,
+      skip: (pageNumber - 1) * limitNumber,
+      take: limitNumber,
       order: { createdAt: 'DESC' },
     });
   }
