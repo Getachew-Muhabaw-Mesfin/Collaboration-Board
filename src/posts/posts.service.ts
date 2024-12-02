@@ -92,17 +92,20 @@ export class PostsService {
   ): Promise<Post[]> {
     const { page, limit, categoryId } = paginationDto;
 
-    const query = this.postsRepository
-      .createQueryBuilder('post')
-      .where('post.userId = :userId', { userId })
-      .skip((page - 1) * limit)
-      .take(limit)
-      .orderBy('post.createdAt', 'DESC');
+    const skip = (page - 1) * limit;
+    const take = limit;
+
+    const where: any = { user: { id: userId } };
 
     if (categoryId) {
-      query.andWhere('post.categoryId = :categoryId', { categoryId });
+      where.category = { id: categoryId };
     }
 
-    return query.getMany();
+    return this.postsRepository.find({
+      skip: isNaN(skip) ? 0 : skip,
+      take: isNaN(take) ? 10 : take,
+      order: { createdAt: 'DESC' },
+      where,
+    });
   }
 }
