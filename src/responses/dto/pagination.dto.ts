@@ -1,5 +1,9 @@
 import { IsOptional, IsInt, Min } from 'class-validator';
 
+/**
+ * PAGINATION DTO FOR PAGINATION OF RESPONSES
+ * IN RESPONSES MODULE
+ */
 export class PaginationDto {
   @IsOptional()
   @IsInt()

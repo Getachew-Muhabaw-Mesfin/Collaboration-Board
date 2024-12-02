@@ -17,14 +17,22 @@ import { PaginationDto } from './dto/pagination.dto';
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
+  /**
+   * CREATE A CATEGORY
+   *
+   * INJECT CATEGORIES SERVICE
+   */
 
-  // Create a new category
   @Post()
   async create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.categoriesService.create(createCategoryDto);
   }
 
-  // Update an existing category
+  /**
+   * UPDATE A CATEGORY
+   *
+   * INJECT CATEGORIES SERVICE
+   */
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -33,19 +41,32 @@ export class CategoriesController {
     return this.categoriesService.update(id, updateCategoryDto);
   }
 
-  // Delete a category
+  /**
+   * DELETE A CATEGORY
+   *
+   * INJECT CATEGORIES SERVICE
+   */
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
     return this.categoriesService.delete(id);
   }
 
-  // Get categories with pagination
+  /**
+   * GET ALL CATEGORIES
+   *
+   * INJECT CATEGORIES SERVICE
+   */
   @Get()
   async getCategories(@Query() paginationDto: PaginationDto) {
     return this.categoriesService.getCategories(paginationDto);
   }
 
-  // Get a single category by ID
+  /**
+   * GET A CATEGORY BY ID
+   *
+   * INJECT CATEGORIES SERVICE
+   */
+
   @Get(':id')
   async getCategoryById(@Param('id', ParseIntPipe) id: number) {
     return this.categoriesService.getCategoryById(id);

@@ -9,7 +9,11 @@ import { Post } from 'src/posts/entities/post.entity';
 import { Notification } from 'src/notifications/entities/notification.entity';
 
 @Module({
-  //  config module , PostModule, and NotificationModule, and ResponseModule
+  /**
+   * TYPEORM CONFIGURATION WITH CONFIG MODULE
+   *
+   */
+
   imports: [
     ConfigModule,
     TypeOrmModule.forFeature([Post, Response, Notification, User]),

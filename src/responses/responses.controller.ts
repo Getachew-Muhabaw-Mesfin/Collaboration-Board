@@ -15,6 +15,9 @@ import { PaginationDto } from './dto/pagination.dto';
 export class ResponsesController {
   constructor(private readonly responsesService: ResponsesService) {}
 
+  /**
+   * CREATE A RESPONSE FOR A POST
+   */
   @PostMethod()
   async create(
     @Body() createResponseDto: CreateResponseDto,
@@ -23,6 +26,9 @@ export class ResponsesController {
     return this.responsesService.create(createResponseDto, userId);
   }
 
+  /**
+   * GET RESPONSES FOR A POST
+   */
   @Get(':postId')
   async getResponsesForPost(
     @Param('postId', ParseIntPipe) postId: number,

@@ -20,6 +20,10 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
+  /**
+   * CREATE A POST
+   * INJECT POSTS SERVICE
+   */
   @Post('create')
   @UseGuards(JwtAuthGuard)
   async create(@Body() createPostDto: CreatePostDto, @Request() req: any) {
@@ -27,6 +31,10 @@ export class PostsController {
     return this.postsService.create(createPostDto, userId);
   }
 
+  /**
+   * GET A POST BY ID
+   * INJECT POSTS SERVICE
+   */
   @Put(':id')
   @UseGuards(JwtAuthGuard)
   async update(
@@ -38,7 +46,10 @@ export class PostsController {
     return this.postsService.update(id, updatePostDto, userId);
   }
 
-  // Delete a post
+  /**
+   * DELETE A POST BY ID
+   * INJECT POSTS SERVICE
+   */
   @Delete(':id')
   @UseGuards(JwtAuthGuard)
   async delete(@Param('id') id: number, @Request() req: any) {
@@ -46,6 +57,13 @@ export class PostsController {
     return this.postsService.delete(id, userId);
   }
 
+  /**
+   * GET POSTS
+   * INJECT POSTS SERVICE
+   * UTILIZE PAGINATION DTO TO HANDLE PAGINATION
+   * UTILIZE REQUEST OBJECT TO GET USER ID
+   * UTILIZE JWT GUARD TO PROTECT ROUTE
+   */
   @Get()
   @UseGuards(JwtAuthGuard)
   async getPosts(@Query() paginationDto: PaginationDto, @Request() req: any) {

@@ -11,8 +11,10 @@ import { Notification } from '../../notifications/entities/notification.entity';
 import { Exclude } from 'class-transformer';
 
 /**
- * User entity
- * This entity is used to create a user table in the database with relations to other tables
+ * USER MODEL DEFINITION AND MAPPING
+ *
+ * INDEXES USER EMAIL COLUMN FOR QUICK SEARCH
+ *
  */
 @Entity()
 @Index('IDX_USER_EMAIL', ['email'], { unique: true })

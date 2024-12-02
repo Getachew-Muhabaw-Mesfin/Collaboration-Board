@@ -10,11 +10,19 @@ export class AuthController {
     private readonly userService: UserService,
   ) {}
 
+  /**
+   * REGISTER A USER
+   * INJECT USER SERVICE
+   */
   @Post('register')
   async register(@Body() createUserDto: any) {
     return this.userService.register(createUserDto);
   }
 
+  /**
+   * LOGIN A USER
+   * INJECT AUTH SERVICE
+   */
   @Post('login')
   async login(@Body() loginDto: { email: string; password: string }) {
     const user = await this.authService.validateUser(
@@ -24,6 +32,10 @@ export class AuthController {
     return this.authService.login(user);
   }
 
+  /**
+   * GET USER PROFILE
+   * INJECT JWT GUARD
+   */
   @Post('profile')
   @UseGuards(JwtAuthGuard)
   async getProfile(@Req() req: any) {

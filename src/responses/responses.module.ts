@@ -7,6 +7,9 @@ import { Post } from '../posts/entities/post.entity';
 import { PostsModule } from '../posts/posts.module';
 import { User } from 'src/users/entities/user.entity';
 
+/**
+ * RESPONSES MODULE
+ */
 @Module({
   imports: [
     TypeOrmModule.forFeature([Response, Post, User]),

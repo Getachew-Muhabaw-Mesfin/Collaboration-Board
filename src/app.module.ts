@@ -14,8 +14,8 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     /**
-     * Database configuration with MySQL and TypeORM
-     * Load .env variables globally
+     * TYPEORM CONFIGURATION WITH CONFIG MODULE
+     * MY SQL DATABASE CONNECTION AND LOADING ENVIRONMENT VARIABLES FROM .ENV FILE
      */
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({

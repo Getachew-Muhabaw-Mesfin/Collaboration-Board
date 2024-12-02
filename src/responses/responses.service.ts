@@ -8,6 +8,10 @@ import { PaginationDto } from './dto/pagination.dto';
 import { User } from 'src/users/entities/user.entity';
 import { classToPlain } from 'class-transformer';
 
+/**
+ * RESPONSES SERVICE
+ *
+ */
 @Injectable()
 export class ResponsesService {
   constructor(
@@ -19,6 +23,10 @@ export class ResponsesService {
     private readonly usersRepository: Repository<User>,
   ) {}
 
+  /**
+   * ANSWER FOR A POST BY A USER
+   *INJECT POSTS REPOSITORY
+   */
   async create(
     createResponseDto: CreateResponseDto,
     userId: number,
@@ -48,7 +56,10 @@ export class ResponsesService {
     return await this.responsesRepository.save(response);
   }
 
-  // List all responses for a given post with pagination
+  /**
+   * GET RESPONSES FOR A POST
+   * INJECT POSTS REPOSITORY
+   */
   async getResponsesForPost(
     postId: number,
     paginationDto: PaginationDto,

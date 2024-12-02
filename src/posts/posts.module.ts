@@ -9,6 +9,9 @@ import { Response } from 'src/responses/entities/response.entity';
 import { Post } from './entities/post.entity';
 import { ResponsesModule } from 'src/responses/responses.module';
 
+/**
+ * POSTS MODULE
+ */
 @Module({
   imports: [
     ConfigModule,

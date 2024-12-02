@@ -13,6 +13,9 @@ import { PaginationDto } from './dto/pagination.dto';
 import { Category } from '../categories/entities/category.entity';
 import { classToPlain } from 'class-transformer';
 
+/**
+ * POSTS SERVICE
+ */
 @Injectable()
 export class PostsService {
   constructor(
@@ -22,6 +25,13 @@ export class PostsService {
     private categoryRepository: Repository<Category>,
   ) {}
 
+  /**
+   * CREATE A POST
+   * INJECT USERS REPOSITORY
+   * INJECT CATEGORIES REPOSITORY
+   * INJECT POSTS REPOSITORY
+   * INJECT POSTS REPOSITORY
+   */
   async create(createPostDto: CreatePostDto, userId: number): Promise<Post> {
     const user = await this.usersRepository.findOneBy({ id: userId });
     if (!user) {
@@ -44,6 +54,11 @@ export class PostsService {
     return this.postsRepository.save(post);
   }
 
+  /**
+   * GET A POST BY ID
+   * INJECT POSTS REPOSITORY
+   * INJECT USERS REPOSITORY
+   */
   async update(
     id: number,
     updatePostDto: UpdatePostDto,
@@ -68,6 +83,11 @@ export class PostsService {
     return this.postsRepository.save(post);
   }
 
+  /**
+   * DELETE A POST
+   * INJECT POSTS REPOSITORY
+   * INJECT USERS REPOSITORY
+   */
   async delete(id: number, userId: number): Promise<void> {
     const post = await this.postsRepository.findOne({
       where: { id },
@@ -86,6 +106,11 @@ export class PostsService {
     await this.postsRepository.remove(post);
   }
 
+  /**
+   * GET POSTS
+   * INJECT POSTS REPOSITORY
+   * USING PAGINATION DTO
+   */
   async getPosts(
     paginationDto: PaginationDto,
     userId: number,

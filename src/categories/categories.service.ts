@@ -17,7 +17,10 @@ export class CategoriesService {
     private categoriesRepository: Repository<Category>,
   ) {}
 
-  // Create a new category
+  /**
+   * CREATE A CATEGORY
+   * INJECT CATEGORIES REPOSITORY
+   */
   async create(createCategoryDto: CreateCategoryDto): Promise<Category> {
     const existingCategory = await this.categoriesRepository.findOneBy({
       name: createCategoryDto.name,
@@ -31,7 +34,10 @@ export class CategoriesService {
     return this.categoriesRepository.save(category);
   }
 
-  // Update an existing category
+  /**
+   * UPDATE A CATEGORY
+   * INJECT CATEGORIES REPOSITORY
+   */
   async update(
     id: number,
     updateCategoryDto: UpdateCategoryDto,
@@ -45,7 +51,11 @@ export class CategoriesService {
     return this.categoriesRepository.save(category);
   }
 
-  // Delete a category
+  /**
+   * DELETE A CATEGORY
+   * INJECT CATEGORIES REPOSITORY
+   */
+
   async delete(id: number): Promise<void> {
     const category = await this.categoriesRepository.findOneBy({ id });
     if (!category) {
@@ -55,6 +65,11 @@ export class CategoriesService {
     await this.categoriesRepository.remove(category);
   }
 
+  /**
+   * GET CATEGORIES
+   * INJECT CATEGORIES REPOSITORY
+   * INJECT PAGINATION DTO
+   */
   async getCategories(paginationDto?: PaginationDto): Promise<Category[]> {
     const page = paginationDto?.page ?? 1;
     const limit = paginationDto?.limit ?? 10;
@@ -78,7 +93,10 @@ export class CategoriesService {
     });
   }
 
-  // Get a single category by ID
+  /**
+   * GET A CATEGORY BY ID
+   * INJECT CATEGORIES REPOSITORY
+   */
   async getCategoryById(id: number): Promise<Category> {
     const category = await this.categoriesRepository.findOneBy({ id });
     if (!category) {

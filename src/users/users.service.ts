@@ -10,6 +10,11 @@ export class UserService {
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
+  /**
+   * REGISTER A NEW USER
+   * AND HASH THE PASSWORD BEFORE SAVING IT TO THE DATABASE
+   * USING BCRYPT LIBRARY
+   */
   async register(userDto: any): Promise<User> {
     const { password, ...rest } = userDto;
 
@@ -23,6 +28,10 @@ export class UserService {
     const savedUser = await this.userRepository.save(newUser);
     return savedUser instanceof Array ? savedUser[0] : savedUser;
   }
+
+  /**
+   * FIND A USER BY EMAIL
+   */
 
   async findByEmail(email: string): Promise<User | undefined> {
     try {
