@@ -5,6 +5,8 @@ import { Response } from './entities/response.entity';
 import { CreateResponseDto } from './dto/create-response.dto';
 import { Post } from '../posts/entities/post.entity';
 import { PaginationDto } from './dto/pagination.dto';
+import { User } from 'src/users/entities/user.entity';
+import { classToPlain } from 'class-transformer';
 
 @Injectable()
 export class ResponsesService {
@@ -13,27 +15,37 @@ export class ResponsesService {
     private responsesRepository: Repository<Response>,
     @InjectRepository(Post)
     private postsRepository: Repository<Post>,
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
   ) {}
 
-  // Create a new response for a post
   async create(
     createResponseDto: CreateResponseDto,
     userId: number,
   ): Promise<Response> {
-    const post = await this.postsRepository.findOneBy({
-      id: createResponseDto.postId,
+    const post = await this.postsRepository.findOne({
+      where: { id: createResponseDto.postId },
     });
+
     if (!post) {
       throw new NotFoundException('Post not found');
+    }
+
+    const user = await this.usersRepository.findOne({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
     }
 
     const response = this.responsesRepository.create({
       content: createResponseDto.content,
       post,
-      user: { id: userId } as any, // User reference
+      user: classToPlain(user),
     });
 
-    return this.responsesRepository.save(response);
+    return await this.responsesRepository.save(response);
   }
 
   // List all responses for a given post with pagination
