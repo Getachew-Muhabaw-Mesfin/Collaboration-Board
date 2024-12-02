@@ -8,6 +8,8 @@ import { PostsModule } from './posts/posts.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { ResponsesModule } from './responses/responses.module';
 import { CategoriesModule } from './categories/categories.module';
+import { join } from 'path';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -26,7 +28,7 @@ import { CategoriesModule } from './categories/categories.module';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+        entities: [join(__dirname, '**', '*.entity.{ts,js}')],
         synchronize: true,
         logging: true,
         extra: {
@@ -39,6 +41,7 @@ import { CategoriesModule } from './categories/categories.module';
     NotificationsModule,
     ResponsesModule,
     CategoriesModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

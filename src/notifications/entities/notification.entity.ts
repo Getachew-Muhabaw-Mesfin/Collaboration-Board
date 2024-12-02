@@ -1,4 +1,3 @@
-// src/notification/notification.entity.ts
 import {
   Entity,
   Column,
@@ -7,9 +6,11 @@ import {
   Index,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
+import { IsEnum } from 'class-validator';
 
 @Entity()
-@Index(['message', 'createdAt'])
+@Index('IDX_NOTIFICATION_CREATED_AT', ['createdAt'])
+@Index('IDX_NOTIFICATION_MESSAGE', ['message'])
 export class Notification {
   @PrimaryGeneratedColumn()
   id: number;
@@ -20,7 +21,8 @@ export class Notification {
   @Column({ default: false })
   isRead: boolean;
 
-  @Column({ enum: ['sms', 'email', 'inapp'], default: 'inapp' })
+  @IsEnum(['sms', 'email', 'inapp'])
+  @Column({ type: 'varchar', length: 20, default: 'inapp', nullable: true })
   type: string;
   @ManyToOne(() => User, (user) => user.notifications)
   user: User;

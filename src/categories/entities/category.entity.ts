@@ -1,4 +1,3 @@
-// src/category/category.entity.ts
 import {
   Entity,
   Column,
@@ -9,7 +8,8 @@ import {
 import { Post } from '../../posts/entities/post.entity';
 
 @Entity()
-@Index(['name', 'createdAt'])
+@Index('IDX_CATEGORY_CREATED_AT', ['createdAt'])
+@Index('IDX_CATEGORY_NAME', ['name'])
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;

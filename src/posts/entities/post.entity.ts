@@ -15,7 +15,8 @@ import { Response } from '../../responses/entities/response.entity';
  * This entity represents a post with relation to the user who created the post and the category to which the post belongs.
  */
 @Entity()
-@Index(['title', 'createdAt'])
+@Index('IDX_POST_CREATED_AT', ['createdAt'])
+@Index('IDX_POST_TITLE', ['title'])
 export class Post {
   @PrimaryGeneratedColumn()
   id: number;

@@ -13,7 +13,7 @@ import { User } from '../../users/entities/user.entity';
  * This entity represents a response to a post with relation to the post and the user who created the response.
  */
 @Entity()
-@Index(['content', 'createdAt'])
+@Index('IDX_RESPONSE_CREATED_AT', ['createdAt'])
 export class Response {
   @PrimaryGeneratedColumn()
   id: number;

@@ -14,8 +14,7 @@ import { Notification } from '../../notifications/entities/notification.entity';
  * This entity is used to create a user table in the database with relations to other tables
  */
 @Entity()
-@Index(['email'], { unique: true })
-@Index(['name', 'createdAt'])
+@Index('IDX_USER_EMAIL', ['email'], { unique: true })
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
